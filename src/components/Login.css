@@ -1,0 +1,173 @@
+/* ✅ 1. ADDED 'Great Vibes' font for the wedding look */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Great+Vibes&display=swap');
+
+.circle-reveal-root {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: #000;
+    font-family: 'Inter', sans-serif;
+    z-index: 10000;
+    overflow: hidden;
+}
+
+.login-split-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    position: relative;
+    z-index: 2;
+}
+
+/* --- UPDATED SLOGAN STYLING --- */
+.slogan-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem; /* Made slightly larger */
+    color: #ffffff;
+    line-height: 1.2;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+}
+
+/* The "Forever Begins Here" part gets the new Cursive Font */
+.slogan-main span { 
+    font-family: 'Great Vibes', cursive; /* ✅ NEW FONT */
+    color: #FFD700; 
+    font-weight: 400;
+    font-size: 4.5rem; /* Larger for emphasis */
+    display: block; /* Puts it on its own line visually if needed */
+    margin-top: 10px;
+}
+
+.slogan-sub { 
+    color: rgba(255,255,255,0.9); 
+    font-size: 1.2rem; 
+    margin-top: 20px;
+    font-weight: 300;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8); 
+    line-height: 1.6;
+}
+/* ------------------------------- */
+
+.auth-glass-card {
+    width: 420px;
+    background: rgba(40, 10, 10, 0.5); /* Slightly darker for better contrast */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 50px 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.brand-title {
+    font-family: 'Playfair Display', serif;
+    color: #ffffff;
+    font-size: 3rem;
+    margin-bottom: 5px;
+}
+.brand-title span { color: #FFD700; }
+.brand-subtitle { color: #FFD700; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 30px; }
+
+/* VISIBILITY FIXES */
+.visible-label {
+    color: #FFD700 !important;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 1.2px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px; /* Added spacing */
+}
+
+/* --- UPDATED OTP BUTTON --- */
+.otp-action-btn {
+    background: #FFD700; /* ✅ Solid Gold Background */
+    color: #4a0e0e; /* Dark Text */
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.otp-action-btn:hover {
+    transform: scale(1.05);
+    background: #ffecb3; /* Lighter gold on hover */
+}
+
+.otp-action-btn.sent {
+    background: #4caf50; /* Green when sent */
+    color: white;
+    cursor: default;
+    transform: none;
+}
+/* -------------------------- */
+
+.input-group-custom { position: relative; }
+.input-group-custom input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    background: #ffffff; 
+    border: none;
+    border-radius: 12px;
+    color: #1a1a1a; 
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.field-icon {
+    position: absolute;
+    left: 15px; top: 50%;
+    transform: translateY(-50%);
+    color: #800000;
+}
+
+.login-action-btn {
+    width: 100%;
+    padding: 16px;
+    background: #FFD700;
+    color: #4a0e0e;
+    font-weight: 800;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s;
+    font-size: 1rem;
+}
+
+.login-action-btn:hover {
+    transform: scale(1.02);
+}
+
+.exit-btn {
+    position: absolute;
+    top: 30px; left: 30px;
+    background: rgba(0,0,0,0.3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.forgot-link, .switch-auth a { color: #FFD700; font-weight: 700; text-decoration: none; }
+.switch-auth { color: white; margin-top: 25px; }
+.form-field { margin-bottom: 20px; }

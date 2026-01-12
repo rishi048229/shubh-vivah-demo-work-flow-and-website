@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
-// Simple SVG Swastik Component
+/* ---------- LOGO ---------- */
 const Swastik = ({ color }) => (
-  <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 10V90M10 50H90" stroke={color} strokeWidth="8" strokeLinecap="round" />
-    <path d="M50 10H90V50" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray="0 40 40 0" />
-    <path d="M50 90H10V50" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray="0 40 40 0" />
-    <path d="M10 50V10H50" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray="0 40 40 0" />
-    <path d="M90 50V90H50" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray="0 40 40 0" />
+  <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+    <path d="M50 10V90M10 50H90" stroke={color} strokeWidth="8" />
     <circle cx="30" cy="30" r="4" fill={color} />
     <circle cx="70" cy="30" r="4" fill={color} />
     <circle cx="70" cy="70" r="4" fill={color} />
@@ -17,174 +14,161 @@ const Swastik = ({ color }) => (
   </svg>
 );
 
-const Navbar = () => {
+/* ---------- NAVBAR ---------- */
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'Services', href: '#services' },
-    { name: 'Partners', href: '#partners' },
-    { name: 'Contact', href: '#contact' },
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: "Partners", path: "/partners" },
+    { name: "Contact", path: "/contact" },
   ];
 
-  const navbarStyles = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    zIndex: 1000,
-    transition: 'all 0.4s ease',
-    backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.85)' : 'transparent',
-    backdropFilter: scrolled ? 'blur(12px)' : 'none',
-    boxShadow: scrolled ? '0 4px 30px rgba(0, 0, 0, 0.1)' : 'none',
-    padding: scrolled ? '0.8rem 2rem' : '1.5rem 2rem',
-    borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.3)' : 'none',
-  };
-
-  const logoColor = scrolled ? 'var(--color-kumkum)' : '#fff';
-
   return (
-    <nav style={navbarStyles}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
-        <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', textDecoration: 'none' }}>
-          <Swastik color={scrolled ? 'var(--color-haldi)' : '#FFC107'} />
-          <span style={{
-            fontSize: '1.8rem',
-            fontWeight: 'bold',
-            color: logoColor,
-            fontFamily: 'var(--font-heading)'
-          }}>
-            <span style={{ color: scrolled ? 'var(--color-haldi)' : '#FFC107' }}>Shubh</span> Vivah
-          </span>
-        </a>
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        width: "100%",
+        zIndex: 9999,
+        padding: scrolled ? "0.75rem 2rem" : "1.4rem 2rem",
+        background: scrolled
+          ? "rgba(255,255,255,0.95)"
+          : "rgba(0,0,0,0.45)",
+        backdropFilter: "blur(14px)",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        {/* LOGO */}
+        <Link
+          to="/"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            textDecoration: "none",
+            fontWeight: "800",
+            fontSize: "1.6rem",
+            color: "#FFD54F",
+          }}
+        >
+          <Swastik color="#FFD54F" />
+          Shubh <span style={{ color: "#fff" }}>Vivah</span>
+        </Link>
 
-        {/* Desktop Menu */}
-        <ul style={{ display: 'none', gap: '2.5rem', alignItems: 'center' }} className="desktop-menu">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <a
-                href={link.href}
-                style={{
-                  color: scrolled ? 'var(--color-text)' : '#fff',
-                  fontWeight: '500',
-                  fontSize: '1rem',
-                  letterSpacing: '0.5px',
-                  transition: 'color 0.3s ease',
-                  position: 'relative',
-                }}
-                className="nav-link"
-              >
-                {link.name}
-              </a>
+        {/* DESKTOP MENU */}
+        <ul className="desktop-menu">
+          {navLinks.map((item) => (
+            <li key={item.name}>
+              <Link className="nav-link" to={item.path}>
+                {item.name}
+              </Link>
             </li>
           ))}
-          <button
-            style={{
-              padding: '0.6rem 1.8rem',
-              backgroundColor: 'var(--color-kumkum)',
-              color: '#fff',
-              borderRadius: '50px',
-              fontWeight: '600',
-              fontSize: '0.95rem',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 4px 15px rgba(211, 47, 47, 0.3)',
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 6px 20px rgba(211, 47, 47, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 15px rgba(211, 47, 47, 0.3)';
-            }}
-          >
+          <button className="login-btn" onClick={() => navigate("/login")}>
             Login
           </button>
         </ul>
 
-        {/* Mobile Menu Button */}
-        <div className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)} style={{ color: scrolled ? 'var(--color-text)' : '#fff', cursor: 'pointer' }}>
+        {/* MOBILE ICON */}
+        <div className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(10px)',
-              overflow: 'hidden',
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              width: '100%',
-              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-            }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="mobile-menu"
           >
-            <ul style={{ display: 'flex', flexDirection: 'column', padding: '2rem', gap: '1.5rem', alignItems: 'center' }}>
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    style={{ color: 'var(--color-text)', fontSize: '1.2rem', fontWeight: '500', fontFamily: 'var(--font-heading)' }}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {navLinks.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <button onClick={() => navigate("/login")}>Login</button>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* CSS */}
       <style>{`
+        .desktop-menu {
+          display: none;
+          gap: 2rem;
+          align-items: center;
+          list-style: none;
+        }
+
+        .nav-link {
+          color: ${scrolled ? "#333" : "#FFD54F"};
+          font-weight: 600;
+          text-decoration: none;
+        }
+
+        .nav-link:hover {
+          color: white;
+        }
+
+        .login-btn {
+          padding: 0.55rem 1.6rem;
+          background: #d32f2f;
+          color: white;
+          border-radius: 50px;
+          border: none;
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        .mobile-menu-btn {
+          color: white;
+          cursor: pointer;
+        }
+
+        .mobile-menu {
+          background: white;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          padding: 2rem;
+          text-align: center;
+        }
+
         @media (min-width: 768px) {
           .desktop-menu {
-            display: flex !important;
+            display: flex;
           }
           .mobile-menu-btn {
-            display: none !important;
+            display: none;
           }
-        }
-        .nav-link:hover {
-          color: var(--color-haldi) !important;
-        }
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          width: 0;
-          height: 2px;
-          bottom: -4px;
-          left: 0;
-          background-color: var(--color-haldi);
-          transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-          width: 100%;
         }
       `}</style>
     </nav>
   );
-};
-
-export default Navbar;
+}

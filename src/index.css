@@ -1,18 +1,25 @@
+/* 1. Import Tailwind CSS v4 Engine */
+@import "tailwindcss";
+
+/* 2. Import Google Fonts */
 @import "@fontsource/playfair-display";
 @import "@fontsource/montserrat";
 
-:root {
+/* 3. Tailwind v4 Theme Configuration */
+/* This replaces your tailwind.config.js file */
+@theme {
   --color-haldi: #FFC107;
-  /* Amber/Yellow */
   --color-kumkum: #D32F2F;
-  /* Red */
   --color-akashat: #1976D2;
-  /* Blue */
+  
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Montserrat", sans-serif;
+}
+
+/* 4. Global Base Styles & Custom Variables */
+:root {
   --color-text: #333333;
   --color-bg: #FFFFFF;
-
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Montserrat', sans-serif;
 }
 
 * {
@@ -26,34 +33,10 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   overflow-x: hidden;
+  background-color: var(--color-bg);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-ul {
-  list-style: none;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
-  font-family: inherit;
-}
-
-/* Animated Gradient Background */
+/* 5. Animated Gradient Background (From your original CSS) */
 .animated-bg {
   position: fixed;
   top: 0;
@@ -67,29 +50,12 @@ button {
 }
 
 @keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Glassmorphism Utility */
-.glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-}
-
-/* Scrollbar Styling */
+/* 6. Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
