@@ -1,18 +1,26 @@
 @import "@fontsource/playfair-display";
 @import "@fontsource/montserrat";
+@import "@fontsource/great-vibes";
 
 :root {
-  --color-haldi: #FFC107;
-  /* Amber/Yellow */
-  --color-kumkum: #D32F2F;
-  /* Red */
-  --color-akashat: #1976D2;
-  /* Blue */
+  --color-primary: #814842;
+  /* Muted Red/Brown */
+  --color-secondary: #BFB8AF;
+  /* Beige/Grey */
+  --color-accent: #3E0E2D;
+  /* Deep Plum */
+
+  --color-haldi: var(--color-secondary);
+  /* Mapping old names to new palette for backward compatibility */
+  --color-kumkum: var(--color-primary);
+  --color-akashat: var(--color-accent);
+
   --color-text: #333333;
   --color-bg: #FFFFFF;
 
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Montserrat', sans-serif;
+  --font-decorative: 'Great Vibes', cursive;
 }
 
 * {
