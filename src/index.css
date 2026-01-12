@@ -4,22 +4,20 @@
 /* 2. Import Google Fonts */
 @import "@fontsource/playfair-display";
 @import "@fontsource/montserrat";
+@import "@fontsource/great-vibes";
 
-/* 3. Tailwind v4 Theme Configuration */
-/* This replaces your tailwind.config.js file */
-@theme {
-  --color-haldi: #FFC107;
-  --color-kumkum: #D32F2F;
-  --color-akashat: #1976D2;
-  
-  --font-heading: "Playfair Display", serif;
-  --font-body: "Montserrat", sans-serif;
-}
-
-/* 4. Global Base Styles & Custom Variables */
 :root {
+  --color-haldi: #FFC107;
+  /* Amber/Yellow */
+  --color-kumkum: #D32F2F;
+  /* Red */
+  --color-akashat: #1976D2;
+  /* Blue */
   --color-text: #333333;
   --color-bg: #FFFFFF;
+
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
 }
 
 * {
