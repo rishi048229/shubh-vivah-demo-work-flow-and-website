@@ -29,7 +29,7 @@ const Hero = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             color: '#fff',
-            paddingTop: '120px',
+            paddingTop: '140px',
             paddingBottom: '20px',
             overflow: 'hidden',
         }}>
@@ -86,7 +86,7 @@ const Hero = () => {
                         fontFamily: 'var(--font-decorative)',
                         color: 'var(--color-secondary)',
                     }}>
-                        Shubh Vivah
+                        Shubh <span style={{ color: 'var(--color-kumkum)', fontSize: '0.8em', verticalAlign: 'middle' }}>卐</span> Vivah
                     </h1>
 
                     <p style={{
@@ -94,7 +94,7 @@ const Hero = () => {
                         marginBottom: '0.5rem',
                         fontWeight: '600',
                         letterSpacing: '1px',
-                        fontFamily: 'var(--font-heading)',
+                        fontFamily: 'var(--font-royal)',
                         textShadow: '1px 1px 3px rgba(0,0,0,0.6)',
                     }}>
                         Where Soulmates Meet & Perfect Matches Begin

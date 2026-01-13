@@ -63,7 +63,10 @@ const PreviousEvents = () => {
                         >
                             <video
                                 src={item.video}
-                                controls
+                                muted
+                                loop
+                                autoPlay
+                                playsInline
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
                         </motion.div>

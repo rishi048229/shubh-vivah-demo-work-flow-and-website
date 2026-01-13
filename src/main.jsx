@@ -1,12 +1,15 @@
-// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
+import '@fontsource/playfair-display';
+import '@fontsource/montserrat';
+import '@fontsource/great-vibes';
+import '@fontsource/cinzel';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // REMOVE React.StrictMode for a moment to test
   <BrowserRouter>
     <App />
   </BrowserRouter>

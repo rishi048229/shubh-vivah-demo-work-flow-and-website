@@ -1,10 +1,7 @@
 /* 1. Import Tailwind CSS v4 Engine */
 @import "tailwindcss";
 
-/* 2. Import Google Fonts */
-@import "@fontsource/playfair-display";
-@import "@fontsource/montserrat";
-@import "@fontsource/great-vibes";
+/* Font imports are now in main.jsx */
 
 :root {
   --color-haldi: #FFC107;
@@ -18,6 +15,8 @@
 
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Montserrat', sans-serif;
+  --font-decorative: 'Great Vibes', cursive;
+  --font-royal: 'Cinzel', serif;
 }
 
 * {
@@ -48,9 +47,17 @@ body {
 }
 
 @keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* 6. Custom Scrollbar */
