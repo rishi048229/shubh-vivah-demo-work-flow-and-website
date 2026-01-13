@@ -9,9 +9,15 @@ import BgImage from "../assets/hero-bg.jpg";
 
 export default function Login() {
   const navigate = useNavigate();
-  
+
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+
   // ✅ State to handle OTP button text
   const [otpSent, setOtpSent] = useState(false);
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
   const handleSendOtp = () => {
     if (!otpSent) {
@@ -22,13 +28,34 @@ export default function Login() {
     }
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // 1. Get users from mock DB
+    const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+
+    // 2. Find user
+    const user = existingUsers.find(
+      (u) => u.email === credentials.email && u.password === credentials.password
+    );
+
+    if (user) {
+      // 3. Save session
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      alert(`Welcome back, ${user.name}!`);
+      navigate("/dashboard");
+    } else {
+      alert("Invalid email or password");
+    }
+  };
+
   return (
-    <motion.div 
+    <motion.div
       className="circle-reveal-root"
-      initial={{ clipPath: 'circle(0% at 100% 50%)' }} 
-      animate={{ clipPath: 'circle(150% at 100% 50%)' }} 
+      initial={{ clipPath: 'circle(0% at 100% 50%)' }}
+      animate={{ clipPath: 'circle(150% at 100% 50%)' }}
       transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-      style={{ 
+      style={{
         backgroundImage: `url(${BgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -43,15 +70,15 @@ export default function Login() {
         zIndex: -1
       }}></div>
 
-      <button onClick={() => navigate("/")} className="exit-btn">
+      <Link to="/" className="exit-btn">
         <ArrowLeft size={20} />
         <span>Return to Home</span>
-      </button>
+      </Link>
 
       <div className="login-split-layout">
-        
+
         {/* LEFT SIDE: SLOGAN */}
-        <motion.div 
+        <motion.div
           className="slogan-container"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -63,7 +90,7 @@ export default function Login() {
 
         {/* RIGHT SIDE: LOGIN CARD */}
         <div className="login-content-side">
-          <motion.div 
+          <motion.div
             className="auth-glass-card"
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -74,16 +101,16 @@ export default function Login() {
               <p className="brand-subtitle">MATCHMAKING WITH TRADITION</p>
             </div>
 
-            <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
-              
+            <form className="auth-form" onSubmit={handleLogin}>
+
               {/* --- EMAIL SECTION WITH OTP BUTTON --- */}
               <div className="form-field">
                 <div className="label-row">
                   <label className="visible-label">EMAIL ADDRESS</label>
-                  
+
                   {/* ✅ ADDED OTP BUTTON HERE */}
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className={`otp-action-btn ${otpSent ? "sent" : ""}`}
                     onClick={handleSendOtp}
                   >
@@ -93,24 +120,31 @@ export default function Login() {
 
                 <div className="input-group-custom">
                   <Mail className="field-icon" size={18} />
-                  <input type="email" placeholder="Enter your registered email" required />
+                  <input
+                    type="email"
+                    name="email"
+                    value={credentials.email}
+                    onChange={handleChange}
+                    placeholder="Enter your registered email"
+                    required
+                  />
                 </div>
               </div>
               {/* ------------------------------------- */}
 
               {/* --- OPTIONAL: OTP INPUT FIELD (If you want them to enter it) --- */}
               {otpSent && (
-                 <motion.div 
-                   className="form-field"
-                   initial={{ opacity: 0, height: 0 }}
-                   animate={{ opacity: 1, height: "auto" }}
-                 >
-                    <label className="visible-label">ENTER OTP</label>
-                    <div className="input-group-custom">
-                      <KeyRound className="field-icon" size={18} />
-                      <input type="text" placeholder="Enter 6-digit code" maxLength="6" />
-                    </div>
-                 </motion.div>
+                <motion.div
+                  className="form-field"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                >
+                  <label className="visible-label">ENTER OTP</label>
+                  <div className="input-group-custom">
+                    <KeyRound className="field-icon" size={18} />
+                    <input type="text" placeholder="Enter 6-digit code" maxLength="6" />
+                  </div>
+                </motion.div>
               )}
               {/* ----------------------------------------------------------- */}
 
@@ -121,7 +155,14 @@ export default function Login() {
                 </div>
                 <div className="input-group-custom">
                   <Lock className="field-icon" size={18} />
-                  <input type="password" placeholder="••••••••" required />
+                  <input
+                    type="password"
+                    name="password"
+                    value={credentials.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    required
+                  />
                 </div>
               </div>
 

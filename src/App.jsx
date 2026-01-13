@@ -10,12 +10,23 @@ import Login from './components/Login';
 import PreviousEvents from './components/PreviousEvents';
 import WhyUs from './components/WhyUs';
 import Stats from './components/Stats';
+import Register from './components/Register';
+import Dashboard from './components/Dashboard';
+import ProfileDetails from './components/ProfileDetails';
+import UserProfile from './components/UserProfile';
+import Chat from './components/Chat';
+import Shortlist from './components/Shortlist';
+import Membership from './components/Membership';
+import AdminDashboard from './components/AdminDashboard';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 function App() {
   const location = useLocation();
   console.log("App rendering, location:", location);
+
+  // This ensures the main site Navbar and Footer disappear on the Login and Register page
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   useEffect(() => {
     AOS.init({
@@ -26,14 +37,18 @@ function App() {
     });
   }, []);
 
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <div className="App">
       <div className="animated-bg"></div>
-
+      {!isAuthPage && <Navbar />}
       <Routes>
         <Route path="/" element={
           <>
-            <Navbar />
             <Hero />
             <Stats />
             <Services />
@@ -41,11 +56,19 @@ function App() {
             <PreviousEvents />
             <Partners />
             <Contact />
-            <Footer />
           </>
         } />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile/:id" element={<ProfileDetails />} />
+        <Route path="/my-profile" element={<UserProfile />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/shortlist" element={<Shortlist />} />
+        <Route path="/membership" element={<Membership />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
+      {!isAuthPage && <Footer />}
     </div>
   );
 }
