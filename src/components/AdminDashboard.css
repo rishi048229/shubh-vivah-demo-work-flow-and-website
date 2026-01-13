@@ -1,0 +1,113 @@
+.admin-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 80px auto 0;
+    /* Navbar offset */
+    min-height: 80vh;
+}
+
+.admin-header {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 1rem;
+}
+
+.admin-header h1 {
+    font-size: 2rem;
+    color: #d32f2f;
+    font-family: 'Playfair Display', serif;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-left: 5px solid #d32f2f;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    color: #d32f2f;
+    background: #fff0f0;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.stat-info h3 {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.stat-info p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 5px 0 0;
+}
+
+.recent-users-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.recent-users-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    /* Ensure table maintains width to trigger scroll */
+}
+
+.users-table th,
+.users-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.users-table th {
+    background: #f9f9f9;
+    font-weight: 600;
+    color: #555;
+}
+
+.users-table tr:hover {
+    background: #fdfdfd;
+}
+
+.user-status {
+    background: #e6f4ea;
+    color: #1e7e34;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}

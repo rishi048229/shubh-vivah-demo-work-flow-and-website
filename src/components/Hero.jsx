@@ -7,7 +7,10 @@ import cardImg3 from '../assets/carousel-3.jpg';
 import cardImg4 from '../assets/carousel-4.jpg';
 import cardImg5 from '../assets/carousel-5.jpg';
 
+import { useNavigate } from 'react-router-dom';
+
 const Hero = () => {
+    const navigate = useNavigate();
     const cards = [
         { img: cardImg1, title: "Dream Weddings" },
         { img: cardImg2, title: "Perfect Matches" },
@@ -83,7 +86,7 @@ const Hero = () => {
                         marginBottom: '0.5rem',
                         lineHeight: 1.1,
                         textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                        fontFamily: 'var(--font-decorative)',
+                        fontFamily: 'var(--font-heading)',
                         color: 'var(--color-secondary)',
                     }}>
                         Shubh Vivah
@@ -111,8 +114,8 @@ const Hero = () => {
                         We offer best services in town
                     </p>
 
-                    <motion.a
-                        href="#services"
+                    <motion.button
+                        onClick={() => navigate('/login')}
                         whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(255, 193, 7, 0.6)' }}
                         whileTap={{ scale: 0.95 }}
                         style={{
@@ -128,10 +131,11 @@ const Hero = () => {
                             letterSpacing: '2px',
                             border: '1px solid rgba(255,255,255,0.2)',
                             marginBottom: '2rem',
+                            cursor: 'pointer',
                         }}
                     >
                         Find Your Match
-                    </motion.a>
+                    </motion.button>
                 </motion.div>
             </div>
 

@@ -5,6 +5,8 @@
 @import "@fontsource/playfair-display";
 @import "@fontsource/montserrat";
 @import "@fontsource/great-vibes";
+@import "@fontsource/great-vibes";
+
 
 :root {
   --color-haldi: #FFC107;
@@ -24,6 +26,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
