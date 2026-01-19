@@ -95,9 +95,8 @@ const Hero = () => {
                     <p style={{
                         fontSize: 'clamp(1.2rem, 2.5vw, 2rem)',
                         marginBottom: '0.5rem',
-                        fontWeight: '600',
                         letterSpacing: '1px',
-                        fontFamily: 'var(--font-royal)',
+                        fontFamily: 'var(--font-decorative)',
                         textShadow: '1px 1px 3px rgba(0,0,0,0.6)',
                     }}>
                         Where Soulmates Meet & Perfect Matches Begin

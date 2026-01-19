@@ -18,12 +18,13 @@ import Chat from './components/Chat';
 import Shortlist from './components/Shortlist';
 import Membership from './components/Membership';
 import AdminDashboard from './components/AdminDashboard';
+import People from './components/People';
+import Messages from './components/Messages';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 function App() {
   const location = useLocation();
-  console.log("App rendering, location:", location);
 
   // This ensures the main site Navbar and Footer disappear on the Login and Register page
   const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
@@ -51,7 +52,7 @@ function App() {
           <>
             <Hero />
             <Stats />
-            <Services />
+            <Services landingMode={true} />
             <WhyUs />
             <PreviousEvents />
             <Partners />
@@ -67,6 +68,9 @@ function App() {
         <Route path="/shortlist" element={<Shortlist />} />
         <Route path="/membership" element={<Membership />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/people" element={<People />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/messages" element={<Messages />} />
       </Routes>
       {!isAuthPage && <Footer />}
     </div>

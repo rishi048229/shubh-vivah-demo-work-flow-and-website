@@ -1,102 +1,97 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Clock, Award, HeartHandshake } from 'lucide-react';
+import { ShieldCheck, UserCheck, HeartHandshake, Users, Lock } from 'lucide-react';
+import './WhyUs.css';
 
 const features = [
     {
-        icon: <Award size={50} />,
-        title: 'Expert Planning',
-        description: 'Years of experience in crafting perfect weddings tailored to your dreams.',
-        color: '#FFC107',
-        bg: '#FFF8E1',
-    },
-    {
-        icon: <HeartHandshake size={50} />,
-        title: 'Budget Friendly',
-        description: 'Premium services at prices that respect your budget without compromising quality.',
-        color: '#4CAF50',
-        bg: '#E8F5E9',
-    },
-    {
-        icon: <ShieldCheck size={50} />,
+        icon: <ShieldCheck size={32} />,
         title: 'Verified Profiles',
-        description: '100% verified profiles ensuring safety and trust in your partner search.',
-        color: '#1976D2',
-        bg: '#E3F2FD',
+        description: '100% government ID verified profiles to ensure a safe and trustworthy matchmaking experience.'
     },
     {
-        icon: <Clock size={50} />,
-        title: '24/7 Support',
-        description: 'Dedicated support team available round the clock to assist you.',
-        color: '#D32F2F',
-        bg: '#FFEBEE',
+        icon: <UserCheck size={32} />,
+        title: 'Kundali Matching',
+        description: 'Traditional Vedic compatibility checks integrated directly into your partner search.'
     },
+    {
+        icon: <HeartHandshake size={32} />,
+        title: 'Personalized Matches',
+        description: 'AI-driven recommendations that respect your family values and personal preferences.'
+    },
+    {
+        icon: <Users size={32} />,
+        title: 'Family Oriented',
+        description: 'A platform designed for families, fostering serious connections and lifelong bonds.'
+    },
+    {
+        icon: <Lock size={32} />,
+        title: 'Privacy First',
+        description: 'Your data is secure with us. You control who sees your photos and contact details.'
+    }
 ];
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2,
+            delayChildren: 0.4 // Wait for blast to start
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+        opacity: 1, 
+        y: 0,
+        transition: { duration: 0.6, ease: "easeOut" }
+    }
+};
+
+import RosePetalBlast from './RosePetalBlast';
 
 const WhyUs = () => {
     return (
-        <section id="why-us" style={{ padding: '6rem 2rem', overflow: 'hidden' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}> {/* Right align container */}
-                <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8 }}
+        <section className="why-us-section" id="why-us">
+            {/* ROSE PETAL BLAST EFFECT */}
+            <RosePetalBlast />
+
+            <div className="why-us-container">
+                <motion.div 
+                    className="why-header"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
                     viewport={{ once: true }}
-                    style={{ textAlign: 'right', marginBottom: '4rem', maxWidth: '600px' }}
                 >
-                    <h2 style={{
-                        fontSize: '3rem',
-                        color: 'var(--color-text)',
-                        marginBottom: '1rem',
-                        fontFamily: 'var(--font-heading)',
-                        fontWeight: '700'
-                    }}>Why Choose Us?</h2>
-                    <div style={{ width: '100px', height: '4px', backgroundColor: 'var(--color-haldi)', borderRadius: '2px', marginLeft: 'auto' }}></div>
+                    <h2>Why Choose Shubh Vivah?</h2>
+                    <p>Building trust through tradition, technology, and transparency.</p>
                 </motion.div>
 
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '2rem',
-                    width: '100%',
-                    maxWidth: '800px', // Limit width to keep it on the left side mostly
-                }}>
+                <motion.div 
+                    className="features-grid"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                >
                     {features.map((feature, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: 100 }} // Slide from right
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, ease: 'easeOut', delay: index * 0.1 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            whileHover={{ scale: 1.02, x: 10 }}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '2rem',
-                                padding: '2rem',
-                                borderRadius: '20px',
-                                backgroundColor: feature.bg,
-                                borderLeft: `5px solid ${feature.color}`,
-                                boxShadow: '0 5px 15px rgba(0,0,0,0.05)',
-                                textAlign: 'left',
-                            }}
+                        <motion.div 
+                            key={index} 
+                            className="feature-card"
+                            variants={itemVariants}
                         >
-                            <div style={{
-                                color: feature.color,
-                                padding: '1.5rem',
-                                background: '#fff',
-                                borderRadius: '50%',
-                                boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
-                            }}>
+                            <div className="icon-wrapper">
                                 {feature.icon}
                             </div>
-                            <div style={{ flex: 1 }}>
-                                <h3 style={{ fontSize: '1.8rem', fontFamily: 'var(--font-heading)', color: feature.color, marginBottom: '0.5rem' }}>{feature.title}</h3>
-                                <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.6' }}>{feature.description}</p>
-                            </div>
+                            <h3>{feature.title}</h3>
+                            <p>{feature.description}</p>
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );

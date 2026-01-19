@@ -1,83 +1,47 @@
-/* 1. Import Tailwind CSS v4 Engine */
 @import "tailwindcss";
-
-/* Font imports are now in main.jsx */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap');
 
 :root {
-  --color-haldi: #FFC107;
-  /* Amber/Yellow */
-  --color-kumkum: #D32F2F;
-  /* Red */
-  --color-akashat: #1976D2;
-  /* Blue */
-  --color-text: #333333;
-  --color-bg: #FFFFFF;
-
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Montserrat', sans-serif;
   --font-decorative: 'Great Vibes', cursive;
   --font-royal: 'Cinzel', serif;
-}
+  --font-body: 'Lato', sans-serif;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
+  --color-haldi: #FFC107;
+  --color-kumkum: #D32F2F;
+  --color-akshada: #FFF8E1;
+  --color-text: #333;
 }
 
 body {
+  margin: 0;
   font-family: var(--font-body);
+  background-color: #fffcf5;
   color: var(--color-text);
-  line-height: 1.6;
   overflow-x: hidden;
-  background-color: var(--color-bg);
 }
 
-/* 5. Animated Gradient Background (From your original CSS) */
-.animated-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -2;
-  background: linear-gradient(-45deg, #fff5e6, #ffebee, #e3f2fd, #fffde7);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
+/* GLOBAL CURSIVE HEADINGS */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-decorative) !important;
+  font-weight: 400;
 }
 
-@keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+/* Specific overrides if needed, but keeping decorative as primary for headings */
+.font-royal {
+  font-family: var(--font-royal);
 }
 
-/* 6. Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-haldi);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #e0a800;
+button {
+  font-family: var(--font-body);
+  /* Buttons usually better with readable font */
 }

@@ -1,193 +1,283 @@
-/* CONTAINER */
-.membership-container {
-    padding: 120px 20px 60px;
-    /* Top padding for navbar */
-    background: linear-gradient(135deg, #FFF8E1 0%, #FAFAFA 100%);
-    min-height: 100vh;
-    font-family: 'Inter', sans-serif;
-    text-align: center;
+/* Membership.css */
+.membership-page {
+    padding-top: 80px;
+    background: #FAFAFA;
+    overflow-x: hidden;
 }
 
-/* HEADER */
-.membership-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: #D32F2F;
-    margin-bottom: 10px;
-}
-
-.membership-header p {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 50px;
-}
-
-/* PLANS GRID */
-.plans-grid {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* PLAN CARD */
-.plan-card {
-    background: white;
-    border-radius: 20px;
-    padding: 40px 30px;
-    width: 320px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eee;
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-}
-
-.plan-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-/* RECOMMENDED CARD STYLES */
-.plan-card.recommended {
-    border: 2px solid #FFD700;
-    transform: scale(1.05);
-    z-index: 10;
-}
-
-.plan-card.recommended:hover {
-    transform: scale(1.05) translateY(-10px);
-}
-
-.badge {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #FFD700;
-    color: #8B6500;
-    padding: 5px 20px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
-}
-
-/* ICON */
-.plan-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: #FFF8E1;
-    color: #D32F2F;
+/* HERO */
+.membership-hero {
+    height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px;
-}
-
-.plan-card.recommended .plan-icon {
-    background: linear-gradient(135deg, #D32F2F, #B71C1C);
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../assets/plans-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 2rem;
     color: white;
 }
 
-.plan-name {
-    font-size: 1.5rem;
+.hero-content h1 {
+    font-family: var(--font-royal);
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.hero-content .highlight {
+    color: #FFD700;
+}
+
+.hero-content p {
+    font-size: 1.25rem;
+    color: #eee;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* COMPARISON SECTION */
+.comparison-section {
+    padding: 6rem 2rem;
+    background: white;
+}
+
+.section-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.comparison-section h2 {
+    text-align: center;
+    font-family: var(--font-royal);
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     color: #333;
-    margin-bottom: 10px;
+}
+
+.comparison-table {
+    border: 1px solid #eee;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.table-row.header {
+    background: #f9f9f9;
     font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
 }
 
-/* PRICE */
-.plan-price {
-    margin-bottom: 30px;
+.col-free, .col-premium {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
-.plan-price .amount {
+.col-premium {
+    color: var(--color-kumkum);
+    font-weight: 600;
+}
+
+.text-muted {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+/* VALUE PROPS */
+.value-props-section {
+    padding: 6rem 2rem;
+    background: #FFFDF5;
+}
+
+.props-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+}
+
+.prop-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transition: transform 0.3s;
+}
+
+.prop-card:hover {
+    transform: translateY(-10px);
+}
+
+.icon-box {
+    width: 70px;
+    height: 70px;
+    background: #FAFAFA;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.prop-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.prop-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* PLANS SECTION */
+.plans-section {
+    padding: 6rem 2rem;
+    background: white;
+}
+
+.plans-section .section-title {
+    text-align: center;
+    font-family: var(--font-royal);
+    font-size: 3rem;
+    margin-bottom: 4rem;
+    color: var(--color-kumkum);
+}
+
+.plans-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.plan-card-premium {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #eee;
+    transition: all 0.3s;
+}
+
+.plan-card-premium.recommended {
+    transform: scale(1.05);
+    border-color: var(--color-kumkum);
+    z-index: 5;
+    box-shadow: 0 20px 50px rgba(128, 0, 0, 0.15);
+}
+
+.best-value-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--color-kumkum);
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-bottom-left-radius: 12px;
+}
+
+.plan-header {
+    padding: 2rem;
+    text-align: center;
+    background: #FAFAFA;
+}
+
+.plan-icon-wrapper {
+    margin-bottom: 1rem;
+}
+
+.plan-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.price-tag {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+}
+
+.currency {
     font-size: 2rem;
-    font-weight: 800;
-    color: #D32F2F;
+    font-weight: 700;
+    color: #333;
 }
 
-.plan-price .period {
+.duration {
     color: #888;
-    font-size: 1rem;
 }
 
-/* FEATURES LIST */
-.plan-features {
+.plan-body {
+    padding: 2rem;
+}
+
+.plan-body ul {
     list-style: none;
     padding: 0;
-    margin: 0 0 30px;
-    text-align: left;
-    flex-grow: 1;
-    /* Pushes button down */
+    margin-bottom: 2rem;
 }
 
-.plan-features li {
+.plan-body li {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     color: #555;
     font-size: 0.95rem;
 }
 
-.check-icon {
-    color: #4CAF50;
-    flex-shrink: 0;
-}
-
-/* BUTTON */
-.plan-btn {
+.select-plan-btn {
     width: 100%;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 1rem;
+    border-radius: 8px;
     border: none;
-    font-weight: 600;
-    font-size: 1rem;
+    color: white;
+    font-weight: 700;
     cursor: pointer;
-    transition: 0.2s;
-    background: #eee;
-    color: #333;
+    transition: all 0.3s;
 }
 
-.plan-card:hover .plan-btn {
-    background: #333;
-    color: white;
+.select-plan-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
 }
 
-.plan-card.recommended .plan-btn {
-    background: linear-gradient(to right, #FFD700, #FFC107);
-    color: #5d4a00;
-}
-
-.plan-card.recommended:hover .plan-btn {
-    background: linear-gradient(to right, #D32F2F, #B71C1C);
-    color: white;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .plan-card.recommended {
-        transform: scale(1);
-    }
-
-    .plan-card.recommended:hover {
-        transform: translateY(-10px);
-    }
-
-    .plans-grid {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .membership-header h1 {
-        font-size: 2rem;
-    }
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 2.5rem; }
+    .table-row { grid-template-columns: 1fr 1fr; }
+    .col-premium { display: none; } /* Hide premium col on mobile for simple view or adjust */
+    /* Better mobile table: */
+    .comparison-table { overflow-x: auto; }
+    .table-row { min-width: 500px; }
+    
+    .plan-card-premium.recommended { transform: scale(1); }
 }

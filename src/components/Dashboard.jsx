@@ -1,342 +1,300 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import {
-    Search, MapPin, Briefcase, GraduationCap, Users, Ruler, Heart, Star, UserCircle2, Filter, LayoutGrid, List
-} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Filter, Heart, MapPin, GraduationCap, Briefcase, Check, Star, User, ChevronRight, ChevronLeft, X, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import "./Dashboard.css";
 import { MOCK_PROFILES } from "../data";
+import "./Dashboard.css";
 
+// --- MATCH SCORE LOGIC (MOCK) ---
+const calculateMatchScore = (profile) => {
+    // In a real app, this would compare user preferences with profile data
+    // For demo, we generate a consistent random-ish score based on ID
+    const baseScore = 60;
+    const randomFactor = (profile.id * 7) % 35; 
+    const score = baseScore + randomFactor;
+    
+    const reasons = [];
+    if (score > 80) reasons.push({ icon: <Star size={14} />, text: "High Compatibility" });
+    if (profile.location.includes("Mumbai") || profile.location.includes("Pune")) reasons.push({ icon: <MapPin size={14} />, text: "Preferred Location" });
+    if (profile.religion === "Hindu") reasons.push({ icon: <Check size={14} />, text: "Same Religion" });
+    
+    return { score, reasons };
+};
+
+// --- MATCH CARD COMPONENT ---
+const MatchCard = ({ profile, onShortlist, isShortlisted }) => {
+    const { score, reasons } = calculateMatchScore(profile);
+    const radius = 30;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset = circumference - (score / 100) * circumference;
+
+    return (
+        <motion.div 
+            className="match-card"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+        >
+            <div className="card-header">
+                <div className="profile-img-wrapper">
+                    <img src={profile.image} alt={profile.name} />
+                </div>
+                
+                {/* Animated Score Ring */}
+                <div className="match-score-wrapper">
+                    <svg className="score-svg" width="70" height="70">
+                        <circle
+                            className="score-circle-bg"
+                            strokeWidth="5"
+                            fill="transparent"
+                            r={radius}
+                            cx="35"
+                            cy="35"
+                        />
+                        <motion.circle
+                            className="score-circle-fg"
+                            strokeWidth="5"
+                            fill="transparent"
+                            r={radius}
+                            cx="35"
+                            cy="35"
+                            strokeDasharray={circumference}
+                            initial={{ strokeDashoffset: circumference }}
+                            whileInView={{ strokeDashoffset }}
+                            transition={{ duration: 1.5, ease: "easeOut" }}
+                        />
+                    </svg>
+                    <span className="score-text">{score}%</span>
+                </div>
+            </div>
+
+            <div className="card-content">
+                <h3>{profile.name}</h3>
+                <div className="location">
+                    <MapPin size={14} /> {profile.location}
+                </div>
+
+                {/* Intelligent Insights Tooltip */}
+                <div className="match-reasons">
+                    {reasons.map((reason, idx) => (
+                        <div key={idx} className="reason-tag">
+                            {reason.icon} {reason.text}
+                        </div>
+                    ))}
+                </div>
+
+                <div className="card-details">
+                    <div className="detail-item"><Briefcase /> {profile.occupation}</div>
+                    <div className="detail-item"><GraduationCap /> {profile.education}</div>
+                    <div className="detail-item"><User /> {profile.age} Yrs, {profile.height}</div>
+                </div>
+
+                <div className="card-actions">
+                    <button 
+                        className={`action-btn ${isShortlisted ? 'btn-primary' : 'btn-outline'}`}
+                        onClick={() => onShortlist(profile.id)}
+                    >
+                        <Heart size={18} fill={isShortlisted ? "white" : "none"} />
+                        {isShortlisted ? "Shortlisted" : "Shortlist"}
+                    </button>
+                    <button className="action-btn btn-primary">
+                        Connect
+                    </button>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+// --- MAIN DASHBOARD COMPONENT ---
 export default function Dashboard() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const searchQuery = queryParams.get("search");
-    const [shortlistedIds, setShortlistedIds] = useState([]);
-    const [currentUser, setCurrentUser] = useState(null);
-    const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
-
-    // Filters State
-    const [filters, setFilters] = useState({
-        minAge: 18,
-        maxAge: 40,
-        education: "",
-        occupation: "",
-        familyType: "",
-        location: "",
-        minHeight: "",
-        religion: "",
-        caste: "",
-        maritalStatus: "",
-        income: "",
-        motherTongue: "",
-        diet: "",
-        drink: "",
-        smoke: ""
-    });
+    const [activeTab, setActiveTab] = useState("best");
+    const [shortlisted, setShortlisted] = useState([]);
+    const [showWizard, setShowWizard] = useState(false);
+    
+    // Wizard State
+    const [wizardStep, setWizardStep] = useState(0);
+    const [filters, setFilters] = useState({});
 
     useEffect(() => {
-        const savedShortlist = JSON.parse(localStorage.getItem("shortlistedProfiles") || "[]");
-        setShortlistedIds(savedShortlist);
-
-        const user = JSON.parse(localStorage.getItem("currentUser"));
-        setCurrentUser(user);
+        const saved = JSON.parse(localStorage.getItem("shortlistedProfiles") || "[]");
+        setShortlisted(saved);
     }, []);
 
     const toggleShortlist = (id) => {
-        let newIds;
-        if (shortlistedIds.includes(id)) {
-            newIds = shortlistedIds.filter(sid => sid !== id);
+        let newShortlist;
+        if (shortlisted.includes(id)) {
+            newShortlist = shortlisted.filter(sid => sid !== id);
         } else {
-            newIds = [...shortlistedIds, id];
+            newShortlist = [...shortlisted, id];
         }
-        setShortlistedIds(newIds);
-        localStorage.setItem("shortlistedProfiles", JSON.stringify(newIds));
+        setShortlisted(newShortlist);
+        localStorage.setItem("shortlistedProfiles", JSON.stringify(newShortlist));
     };
 
-    // Filter Logic
-    const filteredProfiles = MOCK_PROFILES.filter(profile => {
-        if (profile.age < filters.minAge || profile.age > filters.maxAge) return false;
+    // Filter Logic (Simplified for Demo)
+    const getFilteredProfiles = () => {
+        let profiles = [...MOCK_PROFILES];
+        if (activeTab === "nearby") {
+            profiles = profiles.filter(p => p.location.includes("Mumbai") || p.location.includes("Pune"));
+        } else if (activeTab === "new") {
+            profiles = profiles.slice(0, 3); // Just show first 3 as "new"
+        }
+        // "best" shows all sorted by score (mocked by ID for stability)
+        return profiles;
+    };
 
-        // Text/Select Filters (Case insensitive check for string matches)
-        const checkMatch = (filterVal, profileVal) => {
-            if (!filterVal) return true;
-            if (!profileVal) return false;
-            return profileVal.toLowerCase().includes(filterVal.toLowerCase());
-        };
+    const wizardSteps = [
+        { id: 'age', question: "What age range are you looking for?", type: 'range' },
+        { id: 'location', question: "Preferred Location?", type: 'select', options: ["Mumbai", "Pune", "Delhi", "Bangalore"] },
+        { id: 'religion', question: "Religion?", type: 'select', options: ["Hindu", "Muslim", "Sikh", "Christian"] },
+    ];
 
-        if (filters.familyType && profile.family !== filters.familyType) return false;
-        if (filters.maritalStatus && profile.maritalStatus !== filters.maritalStatus) return false;
-        if (!checkMatch(filters.location, profile.location)) return false;
-        if (!checkMatch(filters.education, profile.education)) return false;
-        if (!checkMatch(filters.occupation, profile.occupation)) return false;
-        if (filters.religion && profile.religion !== filters.religion) return false;
-        if (filters.caste && profile.caste !== filters.caste) return false;
-        if (filters.income && profile.income !== filters.income) return false;
-
-        // New Filters
-        if (filters.motherTongue && profile.motherTongue !== filters.motherTongue) return false;
-        if (filters.diet && profile.diet !== filters.diet) return false;
-        if (filters.drink && profile.drink !== filters.drink) return false;
-        if (filters.smoke && profile.smoke !== filters.smoke) return false;
-
-        return true;
-    });
-
-    const handleFilterChange = (e) => {
-        setFilters({ ...filters, [e.target.name]: e.target.value });
+    const handleWizardNext = () => {
+        if (wizardStep < wizardSteps.length - 1) {
+            setWizardStep(wizardStep + 1);
+        } else {
+            setShowWizard(false);
+            setWizardStep(0);
+            // Apply filters logic here
+        }
     };
 
     return (
-        <div className="dashboard-wrapper" style={{
-            backgroundImage: `url(https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80)`, // Wedding-specific background
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-            minHeight: '100vh',
-            paddingTop: '80px'
-        }} data-aos="fade-in">
-            <div className="dashboard-overlay" style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                minHeight: '100vh',
-                backdropFilter: 'blur(5px)'
-            }}>
-                <div className="dashboard-container">
-                    {/* SIDEBAR FILTERS */}
-                    <aside className="filters-sidebar" data-aos="fade-right">
+        <div className="dashboard-page">
+            <div className="dashboard-container">
+                
+                {/* HEADER */}
+                <header className="dashboard-header">
+                    <motion.h1
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        Your Perfect Matches
+                    </motion.h1>
+                    <p style={{ color: '#666' }}>Based on your preferences and family values.</p>
 
-                        {/* --- MINI PROFILE SECTION --- */}
-                        {currentUser && (
-                            <div className="mini-profile-card">
-                                <div className="mini-avatar">
-                                    {currentUser.image ?
-                                        <img src={currentUser.image} alt="Me" /> :
-                                        <UserCircle2 size={40} color="#888" />
-                                    }
-                                </div>
-                                <div className="mini-info">
-                                    <h4>{currentUser.name || "Guest User"}</h4>
-                                    <p onClick={() => navigate("/my-profile")}>Edit Profile</p>
-                                </div>
-                            </div>
-                        )}
-
-                        <div className="sidebar-header">
-                            <h2 className="filter-heading"><Filter size={20} /> Filters</h2>
-                            <span className="reset-link" onClick={() => setFilters({ minAge: 18, maxAge: 60, education: "", occupation: "", familyType: "", location: "", minHeight: "", religion: "", caste: "", maritalStatus: "", income: "", motherTongue: "", diet: "", drink: "", smoke: "" })}>Reset</span>
-                        </div>
-
-                        {/* Advanced Filters */}
-                        <div className="filter-group">
-                            <label>Age Range</label>
-                            <div className="range-inputs">
-                                <input type="number" name="minAge" value={filters.minAge} onChange={handleFilterChange} min="18" placeholder="Min" />
-                                <span>-</span>
-                                <input type="number" name="maxAge" value={filters.maxAge} onChange={handleFilterChange} max="60" placeholder="Max" />
-                            </div>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Marital Status</label>
-                            <select name="maritalStatus" onChange={handleFilterChange} value={filters.maritalStatus}>
-                                <option value="">Any</option>
-                                <option value="Never Married">Never Married</option>
-                                <option value="Divorced">Divorced</option>
-                                <option value="Widowed">Widowed</option>
-                                <option value="Awaiting Divorce">Awaiting Divorce</option>
-                            </select>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Location</label>
-                            <div className="input-icon-wrapper">
-                                <MapPin size={16} />
-                                <input type="text" name="location" value={filters.location} placeholder="City, State" onChange={handleFilterChange} />
-                            </div>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Religion</label>
-                            <select name="religion" onChange={handleFilterChange} value={filters.religion}>
-                                <option value="">Any</option>
-                                <option value="Hindu">Hindu</option>
-                                <option value="Muslim">Muslim</option>
-                                <option value="Christian">Christian</option>
-                                <option value="Sikh">Sikh</option>
-                            </select>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Annual Income</label>
-                            <select name="income" onChange={handleFilterChange} value={filters.income}>
-                                <option value="">Any</option>
-                                <option value="0-5 LPA">0-5 LPA</option>
-                                <option value="5-10 LPA">5-10 LPA</option>
-                                <option value="10-20 LPA">10-20 LPA</option>
-                                <option value="20+ LPA">20+ LPA</option>
-                            </select>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Education</label>
-                            <div className="input-icon-wrapper">
-                                <GraduationCap size={16} />
-                                <select name="education" onChange={handleFilterChange} value={filters.education}>
-                                    <option value="">Any</option>
-                                    <option value="B.Tech">B.Tech</option>
-                                    <option value="MBA">MBA</option>
-                                    <option value="MBBS">MBBS</option>
-                                    <option value="Ph.D">Ph.D</option>
-                                    <option value="M.Com">M.Com</option>
-                                    <option value="B.Des">B.Des</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Mother Tongue</label>
-                            <select name="motherTongue" onChange={handleFilterChange} value={filters.motherTongue}>
-                                <option value="">Any</option>
-                                <option value="Hindi">Hindi</option>
-                                <option value="Marathi">Marathi</option>
-                                <option value="Punjabi">Punjabi</option>
-                                <option value="Bengali">Bengali</option>
-                                <option value="Gujarati">Gujarati</option>
-                                <option value="Telugu">Telugu</option>
-                                <option value="Tamil">Tamil</option>
-                            </select>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Diet</label>
-                            <select name="diet" onChange={handleFilterChange} value={filters.diet}>
-                                <option value="">Any</option>
-                                <option value="Veg">Veg</option>
-                                <option value="Non-Veg">Non-Veg</option>
-                                <option value="Vegan">Vegan</option>
-                                <option value="Eggetarian">Eggetarian</option>
-                            </select>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Drink</label>
-                            <select name="drink" onChange={handleFilterChange} value={filters.drink}>
-                                <option value="">Any</option>
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                                <option value="Occasional">Occasional</option>
-                            </select>
-                        </div>
-
-                        <div className="filter-group">
-                            <label>Smoke</label>
-                            <select name="smoke" onChange={handleFilterChange} value={filters.smoke}>
-                                <option value="">Any</option>
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                            </select>
-                        </div>
-                    </aside>
-
-                    {/* MAIN CONTENT GRID */}
-                    <main className="results-area">
-                        <header className="results-header" data-aos="fade-down">
-                            <div className="header-left">
-                                <h1>Suggested Matches <span className="count-badge">{filteredProfiles.length}</span></h1>
-                                <p>
-                                    {searchQuery
-                                        ? `Showing results for "${searchQuery}"`
-                                        : "Profiles matching your preferences"}
-                                </p>
-                            </div>
-
-                            <div className="view-toggles">
-                                <button
-                                    className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                                    onClick={() => setViewMode('grid')}
-                                    title="Grid View"
+                    {/* TABS */}
+                    <div className="match-tabs">
+                        {['Best Matches', 'New Profiles', 'Nearby', 'Shortlisted'].map((tab) => {
+                            const key = tab.split(' ')[0].toLowerCase();
+                            return (
+                                <button 
+                                    key={key}
+                                    className={`tab-btn ${activeTab === key ? 'active' : ''}`}
+                                    onClick={() => setActiveTab(key)}
                                 >
-                                    <LayoutGrid size={20} />
+                                    {tab}
                                 </button>
-                                <button
-                                    className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
-                                    onClick={() => setViewMode('list')}
-                                    title="List View"
-                                >
-                                    <List size={20} />
-                                </button>
-                            </div>
-                        </header>
+                            );
+                        })}
+                        <button className="tab-btn" onClick={() => setShowWizard(true)}>
+                            <Filter size={16} /> Filters
+                        </button>
+                    </div>
+                </header>
 
-                        <motion.div
-                            layout
-                            className={`profiles-grid ${viewMode === 'list' ? 'list-view' : ''}`}
+                {/* KUNDALI MATCHING CARD */}
+                <motion.div 
+                    className="kundali-card"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    <div className="kundali-bg-pattern"></div>
+                    <div className="kundali-content">
+                        <div className="kundali-header">
+                            <h2><Star size={24} className="spin-slow" /> Vedic Kundali Matching</h2>
+                            <p>Upload your horoscope to find scientifically compatible matches.</p>
+                        </div>
+                        
+                        <div className="kundali-actions">
+                            <button className="upload-btn">
+                                <Upload size={18} /> Upload Kundali
+                            </button>
+                            <div className="match-score-preview">
+                                <div className="score-ring-mini">
+                                    <svg width="40" height="40">
+                                        <circle cx="20" cy="20" r="18" stroke="#eee" strokeWidth="3" fill="none" />
+                                        <motion.circle 
+                                            cx="20" cy="20" r="18" 
+                                            stroke="var(--dash-gold)" 
+                                            strokeWidth="3" 
+                                            fill="none" 
+                                            strokeDasharray="113"
+                                            initial={{ strokeDashoffset: 113 }}
+                                            animate={{ strokeDashoffset: 20 }}
+                                            transition={{ duration: 2 }}
+                                        />
+                                    </svg>
+                                    <span>32/36</span>
+                                </div>
+                                <span>Gunas Matched</span>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* MATCH GRID */}
+                <motion.div 
+                    className="match-grid"
+                    layout
+                >
+                    <AnimatePresence>
+                        {getFilteredProfiles().map((profile) => (
+                            <MatchCard 
+                                key={profile.id} 
+                                profile={profile} 
+                                onShortlist={toggleShortlist}
+                                isShortlisted={shortlisted.includes(profile.id)}
+                            />
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
+
+                {/* FILTER WIZARD OVERLAY */}
+                <AnimatePresence>
+                    {showWizard && (
+                        <motion.div 
+                            className="wizard-overlay"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                         >
-                            <AnimatePresence>
-                                {filteredProfiles.map((profile, index) => (
-                                    <motion.div
-                                        layout
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, scale: 0.9 }}
-                                        transition={{ duration: 0.3 }}
-                                        key={profile.id}
-                                        className="profile-card"
-                                        data-aos="fade-up"
-                                        data-aos-delay={index * 100}
-                                    >
-                                        <div className="profile-image" style={{ backgroundImage: `url(${profile.image})` }}>
-                                            <div className="gradient-overlay"></div>
-                                        </div>
-                                        <div className="profile-info">
-                                            <div className="info-header">
-                                                <h3>{profile.name}, {profile.age}</h3>
-                                                <button
-                                                    className="shortlist-icon-btn"
-                                                    onClick={(e) => { e.stopPropagation(); toggleShortlist(profile.id); }}
-                                                >
-                                                    <Heart
-                                                        size={22}
-                                                        fill={shortlistedIds.includes(profile.id) ? "#d32f2f" : "none"}
-                                                        color={shortlistedIds.includes(profile.id) ? "#d32f2f" : "#ddd"}
-                                                    />
-                                                </button>
-                                            </div>
-
-                                            <div className="core-details">
-                                                <p><MapPin size={14} /> {profile.location}</p>
-                                                <p><Briefcase size={14} /> {profile.occupation}</p>
-                                                <p><GraduationCap size={14} /> {profile.education}</p>
-                                            </div>
-
-                                            <div className="tags">
-                                                <span>{profile.height}</span>
-                                                <span>{profile.family} Family</span>
-                                                <span>{profile.caste}</span>
-                                            </div>
-
-                                            <div className="card-actions">
-                                                <button
-                                                    className="connect-btn"
-                                                    onClick={() => navigate(`/profile/${profile.id}`)}
-                                                >
-                                                    View Full Profile
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-
-                            {filteredProfiles.length === 0 && (
-                                <div className="no-results">
-                                    <h3>No matches found</h3>
-                                    <p>Try adjusting your search criteria.</p>
+                            <motion.div 
+                                className="wizard-card"
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.9, opacity: 0 }}
+                            >
+                                <button className="close-wizard" onClick={() => setShowWizard(false)}><X /></button>
+                                
+                                <div className="progress-bar">
+                                    <div 
+                                        className="progress-fill" 
+                                        style={{ width: `${((wizardStep + 1) / wizardSteps.length) * 100}%` }}
+                                    ></div>
                                 </div>
-                            )}
+
+                                <h2>{wizardSteps[wizardStep].question}</h2>
+                                
+                                <div className="wizard-options">
+                                    {wizardSteps[wizardStep].options?.map((opt) => (
+                                        <button key={opt} className="wizard-btn" onClick={handleWizardNext}>
+                                            {opt}
+                                        </button>
+                                    ))}
+                                    {wizardSteps[wizardStep].type === 'range' && (
+                                        <button className="wizard-btn active" onClick={handleWizardNext}>21 - 35 Years</button>
+                                    )}
+                                </div>
+                            </motion.div>
                         </motion.div>
-                    </main>
-                </div>
+                    )}
+                </AnimatePresence>
+
             </div>
         </div>
     );
