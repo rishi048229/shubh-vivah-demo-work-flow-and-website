@@ -23,6 +23,8 @@ import Messages from './components/Messages';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+import AIPanditBot from './components/AIPanditBot';
+
 function App() {
   const location = useLocation();
 
@@ -72,6 +74,7 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/messages" element={<Messages />} />
       </Routes>
+      <AIPanditBot />
       {!isAuthPage && <Footer />}
     </div>
   );

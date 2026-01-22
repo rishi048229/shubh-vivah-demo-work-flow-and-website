@@ -317,13 +317,19 @@
 /* KUNDALI CARD */
 .kundali-card {
     background: linear-gradient(135deg, #FFF8E1 0%, #FFFFFF 100%);
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 2rem;
     margin-bottom: 3rem;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: none;
+    box-shadow: 12px 12px 24px #b8b0a5, -12px -12px 24px #ffffff;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.kundali-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 16px 16px 32px #b8b0a5, -16px -16px 32px #ffffff;
 }
 
 .kundali-bg-pattern {

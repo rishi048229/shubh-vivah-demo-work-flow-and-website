@@ -29,7 +29,7 @@ export default function Membership() {
             features: ["Send 20 Messages", "View 50 Contact Numbers", "Basic Profile Highlight"],
             buttonText: "Get Silver",
             recommended: false,
-            color: '#9E9E9E'
+            color: '#E0E0E0' // Soft Silver
         },
         {
             id: 2,
@@ -40,7 +40,7 @@ export default function Membership() {
             features: ["Unlimited Messages", "View 150 Contact Numbers", "Priority Profile Highlight", "Dedicated Relationship Manager"],
             buttonText: "Get Gold",
             recommended: true,
-            color: '#FFC107'
+            color: '#FFD700' // Gold
         },
         {
             id: 3,
@@ -51,7 +51,7 @@ export default function Membership() {
             features: ["Unlimited Everything", "View Unlimited Contacts", "Top Profile Highlight", "Personal Matchmaker", "Background Verification"],
             buttonText: "Get Diamond",
             recommended: false,
-            color: '#29B6F6'
+            color: '#FF9800' // Saffron
         },
         {
             id: 4,
@@ -62,21 +62,14 @@ export default function Membership() {
             features: ["Lifetime Validity", "Global Profile Reach", "Celebrity Matchmaking", "Wedding Planner Consultation", "Honeymoon Package Deals"],
             buttonText: "Join Elite",
             recommended: false,
-            color: '#AB47BC'
+            color: '#D4AF37' // Deep Gold
         }
     ];
 
     return (
         <div className="membership-page">
             {/* SECTION 1: HERO INTRO */}
-            <section className="membership-hero" style={{
-                margin: '20px',
-                borderRadius: '30px',
-                boxShadow: '0 0 30px rgba(211, 47, 47, 0.4), 0 10px 50px rgba(0,0,0,0.3)',
-                width: 'calc(100% - 40px)',
-                overflow: 'hidden',
-                minHeight: '60vh' // Ensure it has some height if not defined in CSS
-            }}>
+            <section className="membership-hero">
                 <motion.div 
                     className="hero-content"
                     initial="hidden"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Save, User, MapPin, Briefcase, GraduationCap, Ruler, Phone, Camera, Heart, CheckCircle } from "lucide-react";
+import { Save, User, MapPin, Briefcase, GraduationCap, Ruler, Phone, Camera, Heart, CheckCircle, Edit2, Sparkles, Home, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import "./UserProfile.css";
 
@@ -80,10 +80,29 @@ export default function UserProfile() {
         }, 1000); // Simulate network request
     };
 
-    // Circular Progress Props
-    const radius = 80;
-    const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset = circumference - (completion / 100) * circumference;
+    // Animation Variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15
+            }
+        }
+    };
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 30, scale: 0.98 },
+        visible: { 
+            opacity: 1, 
+            y: 0, 
+            scale: 1,
+            transition: { 
+                duration: 0.6, 
+                ease: [0.22, 1, 0.36, 1] // Custom easeOutCubic-like curve for "luxurious" feel
+            }
+        }
+    };
 
     return (
         <div className="profile-page-wrapper">
@@ -104,121 +123,99 @@ export default function UserProfile() {
                     </motion.p>
                 </header>
 
-                <form className="profile-layout-grid" onSubmit={handleSave}>
+                <motion.form 
+                    className="profile-layout-grid" 
+                    onSubmit={handleSave}
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
                     
-                    {/* LEFT COLUMN: PHOTO & STATUS */}
-                    <motion.aside 
-                        className="profile-sidebar-card"
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="profile-photo-section">
-                            {/* SVG Progress Ring */}
-                            <svg className="progress-ring" width="180" height="180">
-                                <circle
-                                    className="progress-ring__circle-bg"
-                                    strokeWidth="6"
-                                    fill="transparent"
-                                    r={radius}
-                                    cx="90"
-                                    cy="90"
-                                />
-                                <circle
-                                    className="progress-ring__circle"
-                                    strokeWidth="6"
-                                    fill="transparent"
-                                    r={radius}
-                                    cx="90"
-                                    cy="90"
-                                    style={{ strokeDasharray: circumference, strokeDashoffset }}
-                                />
-                            </svg>
-
-                            <div className="photo-container">
+                    {/* LEFT COLUMN: SIDEBAR */}
+                    <motion.aside className="profile-sidebar-card neumorphic-card" variants={cardVariants}>
+                        <div className="profile-photo-wrapper">
+                            <div className="profile-photo-container">
                                 <img 
                                     src={formData.image || "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400"} 
                                     alt="Profile" 
                                 />
-                                <label className="upload-overlay">
-                                    <Camera size={32} />
-                                    <span>Change</span>
-                                    <input
-                                        type="file"
-                                        className="hidden-input"
-                                        accept="image/*"
-                                        onChange={handleImageUpload}
-                                    />
-                                </label>
                             </div>
+                            <label className="edit-photo-btn">
+                                <Camera size={20} />
+                                <input
+                                    type="file"
+                                    className="hidden-input"
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                />
+                            </label>
                         </div>
 
+                        <h2 className="profile-name">{formData.name || "Your Name"}</h2>
+                        
+                        <div className="profile-location">
+                            <MapPin size={18} />
+                            <span>{formData.location || "Add Location"}</span>
+                        </div>
+
+                        <div className="completion-bar-container">
+                            <div 
+                                className="completion-bar-fill" 
+                                style={{ width: `${completion}%` }}
+                            ></div>
+                        </div>
                         <div className="completion-text">
-                            <h3>{completion}%</h3>
-                            <p>Profile Completed</p>
-                        </div>
-
-                        <div className="sidebar-divider"></div>
-
-                        <div className="sidebar-contact-info">
-                            <div className="info-item">
-                                <User size={18} />
-                                <span>{formData.name || "Your Name"}</span>
-                            </div>
-                            <div className="info-item">
-                                <MapPin size={18} />
-                                <span>{formData.location || "Your Location"}</span>
-                            </div>
+                            {completion}% Profile Completed
                         </div>
                     </motion.aside>
 
-                    {/* RIGHT COLUMN: MAIN DETAILS */}
-                    <motion.main 
-                        className="profile-main-card"
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                        {/* SECTION 1: ABOUT */}
-                        <section className="form-section-card">
-                            <div className="section-header">
-                                <Heart size={24} color="#D32F2F" />
-                                <h3>About Me</h3>
+                    {/* RIGHT COLUMN: MAIN CONTENT */}
+                    <main className="profile-main-card">
+                        
+                        {/* CARD 1: ABOUT ME */}
+                        <motion.div className="neumorphic-card" variants={cardVariants}>
+                            <div className="card-header">
+                                <div className="card-icon-box">
+                                    <Heart size={24} />
+                                </div>
+                                <h3 className="card-title">About Me</h3>
                             </div>
                             <div className="input-group">
                                 <label>Bio</label>
                                 <textarea
+                                    className="soft-input"
                                     name="bio"
-                                    rows="4"
                                     value={formData.bio}
                                     onChange={handleChange}
                                     placeholder="Write something nice about yourself..."
                                 ></textarea>
                             </div>
-                        </section>
+                        </motion.div>
 
-                        {/* SECTION 2: BASIC DETAILS */}
-                        <section className="form-section-card">
-                            <div className="section-header">
-                                <Ruler size={24} color="#D32F2F" />
-                                <h3>Basic Details</h3>
+                        {/* CARD 2: BASIC DETAILS */}
+                        <motion.div className="neumorphic-card" variants={cardVariants}>
+                            <div className="card-header">
+                                <div className="card-icon-box">
+                                    <User size={24} />
+                                </div>
+                                <h3 className="card-title">Basic Details</h3>
                             </div>
                             <div className="form-grid">
                                 <div className="input-group">
                                     <label>Full Name</label>
-                                    <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Enter your full name" />
+                                    <input className="soft-input" type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Enter your full name" />
                                 </div>
                                 <div className="input-group">
                                     <label>Location</label>
-                                    <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="City, State" />
+                                    <input className="soft-input" type="text" name="location" value={formData.location} onChange={handleChange} placeholder="City, State" />
                                 </div>
                                 <div className="input-group">
                                     <label>Age</label>
-                                    <input type="number" name="age" value={formData.age} onChange={handleChange} />
+                                    <input className="soft-input" type="number" name="age" value={formData.age} onChange={handleChange} />
                                 </div>
                                 <div className="input-group">
                                     <label>Height</label>
-                                    <select name="height" value={formData.height} onChange={handleChange}>
+                                    <select className="soft-input" name="height" value={formData.height} onChange={handleChange}>
                                         <option value="">Select</option>
                                         <option value="5'0">5'0"</option>
                                         <option value="5'5">5'5"</option>
@@ -227,7 +224,7 @@ export default function UserProfile() {
                                 </div>
                                 <div className="input-group">
                                     <label>Religion</label>
-                                    <select name="religion" value={formData.religion} onChange={handleChange}>
+                                    <select className="soft-input" name="religion" value={formData.religion} onChange={handleChange}>
                                         <option value="">Select</option>
                                         <option value="Hindu">Hindu</option>
                                         <option value="Muslim">Muslim</option>
@@ -237,66 +234,81 @@ export default function UserProfile() {
                                 </div>
                                 <div className="input-group">
                                     <label>Caste</label>
-                                    <input type="text" name="caste" value={formData.caste} onChange={handleChange} />
+                                    <input className="soft-input" type="text" name="caste" value={formData.caste} onChange={handleChange} />
                                 </div>
                             </div>
-                        </section>
+                        </motion.div>
 
-                        {/* SECTION 3: CAREER & FAMILY */}
-                        <section className="form-section-card">
-                            <div className="section-header">
-                                <Briefcase size={24} color="#D32F2F" />
-                                <h3>Career & Family</h3>
+                        {/* CARD 3: CAREER & EDUCATION */}
+                        <motion.div className="neumorphic-card" variants={cardVariants}>
+                            <div className="card-header">
+                                <div className="card-icon-box">
+                                    <Briefcase size={24} />
+                                </div>
+                                <h3 className="card-title">Career & Education</h3>
                             </div>
                             <div className="form-grid">
                                 <div className="input-group">
                                     <label>Education</label>
-                                    <select name="education" value={formData.education} onChange={handleChange}>
+                                    <select className="soft-input" name="education" value={formData.education} onChange={handleChange}>
                                         <option value="">Select</option>
                                         <option value="B.Tech">B.Tech</option>
                                         <option value="MBA">MBA</option>
                                         <option value="MBBS">MBBS</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
                                 <div className="input-group">
                                     <label>Occupation</label>
-                                    <input type="text" name="occupation" value={formData.occupation} onChange={handleChange} />
+                                    <input className="soft-input" type="text" name="occupation" value={formData.occupation} onChange={handleChange} />
                                 </div>
                                 <div className="input-group">
                                     <label>Annual Income</label>
-                                    <input type="text" name="income" value={formData.income} onChange={handleChange} />
+                                    <input className="soft-input" type="text" name="income" value={formData.income} onChange={handleChange} />
                                 </div>
+                            </div>
+                        </motion.div>
+
+                        {/* CARD 4: FAMILY DETAILS */}
+                        <motion.div className="neumorphic-card" variants={cardVariants}>
+                            <div className="card-header">
+                                <div className="card-icon-box">
+                                    <Home size={24} />
+                                </div>
+                                <h3 className="card-title">Family Details</h3>
+                            </div>
+                            <div className="form-grid">
                                 <div className="input-group">
                                     <label>Family Type</label>
-                                    <select name="familyType" value={formData.familyType} onChange={handleChange}>
+                                    <select className="soft-input" name="familyType" value={formData.familyType} onChange={handleChange}>
                                         <option value="Nuclear">Nuclear</option>
                                         <option value="Joint">Joint</option>
                                     </select>
                                 </div>
+                                {/* Add more family fields as needed */}
                             </div>
-                        </section>
+                        </motion.div>
 
-                        {/* FLOATING SAVE BAR */}
+                        {/* FLOATING ACTION BAR */}
                         <motion.div 
-                            className="save-action-bar"
-                            initial={{ y: 100 }}
-                            animate={{ y: 0 }}
-                            transition={{ delay: 0.5 }}
+                            className="action-bar"
+                            initial={{ y: 100, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 1, type: "spring" }}
                         >
-                            <span style={{ color: '#666', fontSize: '0.9rem' }}>
-                                {completion < 100 ? `${100 - completion}% more to go!` : "Profile Complete!"}
-                            </span>
-                            <button type="submit" className="save-btn" disabled={isSaving}>
-                                {isSaving ? "Saving..." : (
+                            <button type="submit" className="save-btn-floating" disabled={isSaving}>
+                                {isSaving ? (
+                                    "Saving..."
+                                ) : (
                                     <>
-                                        Save Changes <Save size={18} />
+                                        <Save size={20} /> Save Changes
                                     </>
                                 )}
                             </button>
                         </motion.div>
 
-                    </motion.main>
-                </form>
+                    </main>
+                </motion.form>
             </div>
         </div>
     );
