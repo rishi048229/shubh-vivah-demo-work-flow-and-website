@@ -71,7 +71,7 @@ const Footer = () => {
 
                 <div className="footer-bottom">
                     <p style={{ color: '#888', fontSize: '0.9rem' }}>
-                        &copy; {new Date().getFullYear()} Shubh Vivah. All rights reserved.
+                        &copy; {new Date().getFullYear()} ThynkTech India. All rights reserved.
                     </p>
                     <div className="social-links">
                         {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (

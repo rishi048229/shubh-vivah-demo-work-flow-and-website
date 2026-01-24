@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, Grid, MessageCircle, Heart, LogOut, LogIn, Info, Star } from "lucide-react";
 import { MandapIcon, CoupleIcon, DiyaIcon, KalashIcon, UserTilakIcon } from "./Icons";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import logoImg from "../assets/logo.jpg";
+import logoImg from "../assets/navbar_logo.png";
 import "./Navbar.css";
 
 /* ---------- NAVBAR ---------- */

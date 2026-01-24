@@ -33,25 +33,27 @@
 .logo-link {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     text-decoration: none;
 }
 
 .navbar-logo-img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
     transition: transform 0.5s ease;
 }
 
-.logo-link:hover .navbar-logo-img {
-    transform: rotate(15deg) scale(1.1);
-}
+
 
 .logo-text {
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: 1px;
+    margin-top: 10px;
+    margin-bottom: 25px; /* Nudge down for visual centering */
+    line-height: 1;
 }
 
 /* DESKTOP MENU */
