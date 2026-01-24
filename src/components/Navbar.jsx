@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Grid, MessageCircle, Heart, LogOut, LogIn } from "lucide-react";
+import { Menu, X, Grid, MessageCircle, Heart, LogOut, LogIn, Info, Star } from "lucide-react";
 import { MandapIcon, CoupleIcon, DiyaIcon, KalashIcon, UserTilakIcon } from "./Icons";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import logoImg from "../assets/logo.jpg";
@@ -75,6 +75,8 @@ export default function Navbar() {
   ] : [
     { path: "/", icon: <MandapIcon size={20} />, label: "Home" },
     { path: "/#services", icon: <DiyaIcon size={20} />, label: "Services" },
+    { path: "/#about-us", icon: <Info size={20} />, label: "About Us" },
+    { path: "/#why-us", icon: <Star size={20} />, label: "Why Us" },
     { path: "/login", icon: <LogIn size={20} />, label: "Login" },
   ];
 

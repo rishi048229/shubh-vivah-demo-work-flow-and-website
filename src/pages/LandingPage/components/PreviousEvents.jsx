@@ -36,7 +36,7 @@ const PreviousEvents = () => {
                     }}>What we will help to create</h2>
                     <div style={{ width: '100px', height: '4px', backgroundColor: 'var(--color-kumkum)', margin: '0 auto', borderRadius: '2px' }}></div>
                     <p style={{ marginTop: '1.5rem', color: '#666', fontSize: '1.2rem' }}>
-                        Relive the magical moments we've created.
+                        Live the magical moments we will create.
                     </p>
                 </motion.div>
 

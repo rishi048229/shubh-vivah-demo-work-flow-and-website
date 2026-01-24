@@ -1,7 +1,9 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import heroVid from '../../../assets/Final_hero.mp4';
+import intermissionVid from '../../../assets/inttermission_video .mp4';
 import logoImg from '../../../assets/logo.jpg';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,16 +11,28 @@ const Hero = () => {
     const navigate = useNavigate();
     const videoRef = useRef(null);
     const [showComingSoon, setShowComingSoon] = useState(false);
+    const [showOverlayContent, setShowOverlayContent] = useState(false);
 
     const handleVideoEnd = () => {
         setShowComingSoon(true);
-        setTimeout(() => {
-            setShowComingSoon(false);
-            if (videoRef.current) {
-                videoRef.current.currentTime = 0;
-                videoRef.current.play();
-            }
-        }, 5000);
+        setShowOverlayContent(false);
+    };
+
+    const handleIntermissionTimeUpdate = (e) => {
+        const video = e.target;
+        // Show text in the last 4 seconds
+        if (video.duration - video.currentTime <= 4) {
+            setShowOverlayContent(true);
+        }
+    };
+
+    const handleIntermissionEnd = () => {
+        setShowComingSoon(false);
+        setShowOverlayContent(false);
+        if (videoRef.current) {
+            videoRef.current.currentTime = 0;
+            videoRef.current.play();
+        }
     };
 
     return (
@@ -81,60 +95,82 @@ const Hero = () => {
                             left: 0,
                             width: '100%',
                             height: '100%',
-                            backgroundColor: 'var(--color-maroon)',
-                            zIndex: 50, // Covers everything
+                            backgroundColor: '#000', // Black background for video
+                            zIndex: 50,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: '2rem'
                         }}
                     >
-                        {/* Logo */}
-                        <motion.img
-                            src={logoImg}
-                            alt="Logo"
-                            initial={{ scale: 0.8, opacity: 0, rotate: -10 }}
-                            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                            transition={{ duration: 1, type: 'spring' }}
+                        {/* Intermission Video */}
+                        <video
+                            autoPlay
+                            muted
+                            playsInline
+                            onTimeUpdate={handleIntermissionTimeUpdate}
+                            onEnded={handleIntermissionEnd}
                             style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '50%',
-                                border: '2px solid var(--color-gold)',
-                                boxShadow: '0 0 50px rgba(255, 215, 0, 0.8)'
-                            }}
-                        />
-
-                        {/* Animated Text */}
-                        <motion.h2
-                            animate={{
-                                backgroundPosition: ['0% 50%', '100% 50%'],
-                                textShadow: [
-                                    '0 0 10px rgba(212, 175, 55, 0.5)',
-                                    '0 0 20px rgba(212, 175, 55, 0.8)',
-                                    '0 0 10px rgba(212, 175, 55, 0.5)'
-                                ]
-                            }}
-                            transition={{ 
-                                backgroundPosition: { duration: 3, repeat: Infinity, ease: "linear" },
-                                textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-                            }}
-                            style={{
-                                fontFamily: 'var(--font-cursive)',
-                                fontSize: 'clamp(4rem, 10vw, 8rem)',
-                                color: 'transparent',
-                                background: 'linear-gradient(90deg, #D4AF37, #FFF8E1, #D4AF37)',
-                                backgroundSize: '200% auto',
-                                WebkitBackgroundClip: 'text',
-                                backgroundClip: 'text',
-                                margin: 0,
-                                padding: '0 1rem',
-                                textAlign: 'center'
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                zIndex: 1
                             }}
                         >
-                            Coming Soon
-                        </motion.h2>
+                            <source src={intermissionVid} type="video/mp4" />
+                        </video>
+
+                        {/* Overlay Content (Logo + Text) */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: showOverlayContent ? 1 : 0 }}
+                            transition={{ duration: 1 }}
+                            style={{
+                                zIndex: 2,
+                                position: 'absolute',
+                                bottom: '5%',
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            {/* Logo */}
+
+
+                            {/* Animated Text */}
+                            <motion.h2
+                                animate={{
+                                    backgroundPosition: ['0% 50%', '100% 50%'],
+                                    textShadow: [
+                                        '0 0 10px rgba(212, 175, 55, 0.5)',
+                                        '0 0 20px rgba(212, 175, 55, 0.8)',
+                                        '0 0 10px rgba(212, 175, 55, 0.5)'
+                                    ]
+                                }}
+                                transition={{ 
+                                    backgroundPosition: { duration: 3, repeat: Infinity, ease: "linear" },
+                                    textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                                }}
+                                style={{
+                                    fontFamily: 'var(--font-cursive)',
+                                    fontSize: '5rem',
+                                    color: 'transparent',
+                                    background: 'linear-gradient(90deg, #D4AF37, #FFF8E1, #D4AF37)',
+                                    backgroundSize: '200% auto',
+                                    WebkitBackgroundClip: 'text',
+                                    backgroundClip: 'text',
+                                    margin: 0,
+                                    padding: '0 1rem',
+                                    textAlign: 'center'
+                                }}
+                            >
+                                Coming Soon
+                            </motion.h2>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -236,6 +272,8 @@ const Hero = () => {
                     </motion.button>
                 </motion.div>
             </motion.div>
+
+
         </section >
     );
 };

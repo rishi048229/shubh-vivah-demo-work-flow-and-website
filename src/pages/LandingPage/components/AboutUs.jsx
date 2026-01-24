@@ -72,7 +72,7 @@ const AboutUs = () => {
     };
 
     return (
-        <section className="about-us-section">
+        <section className="about-us-section" id="about-us">
             <div className="about-us-container">
                 
                 {/* Header */}

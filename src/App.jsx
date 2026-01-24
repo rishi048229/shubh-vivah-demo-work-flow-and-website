@@ -7,23 +7,11 @@ import 'aos/dist/aos.css';
 
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage/LandingPage';
-import Services from './pages/LandingPage/components/Services';
-import Horoscope from './pages/LandingPage/components/Horoscope';
+import AvailableSoon from './pages/AvailableSoon';
 
 import Footer from './components/Footer';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
-import People from './pages/People/People';
 import ScrollToHash from './components/ScrollToHash';
 import AIPanditBot from './components/AIPanditBot';
-
-import Membership from './pages/Membership/Membership';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Messages from './pages/Messages/Messages';
-import Shortlist from './pages/Shortlist/Shortlist';
-import UserProfile from './pages/UserProfile/UserProfile';
-import ProfileDetails from './pages/UserProfile/ProfileDetails';
-
 import ReviewSystem from './components/ReviewSystem';
 
 const ReviewButton = () => (
@@ -57,7 +45,8 @@ const ReviewButton = () => (
 
 function App() {
   const location = useLocation();
-  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
+  // const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
+  const isAuthPage = false; // No auth pages anymore
 
   useEffect(() => {
     AOS.init({
@@ -70,35 +59,18 @@ function App() {
     <div className="app-container">
       <ScrollToHash />
       
-      {!isAuthPage && <Navbar />}
+      <Navbar />
 
       <main>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/people" element={<People />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/horoscope" element={<Horoscope />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/shortlist" element={<Shortlist />} />
-          <Route path="/my-profile" element={<UserProfile />} />
-          <Route path="/profile/:id" element={<ProfileDetails />} />
-          <Route path="*" element={
-            <div style={{ textAlign: "center", padding: "100px 20px", color: "var(--color-maroon)" }}>
-              <h2>404 - Page Not Found</h2>
-              <p>The page you are looking for does not exist.</p>
-              <p>Current Path: {location.pathname}</p>
-            </div>
-          } />
+          <Route path="*" element={<AvailableSoon />} />
         </Routes>
       </main>
 
       <AIPanditBot />
-      {!isAuthPage && <Footer />}
-      {!isAuthPage && <ReviewSystem />}
+      <Footer />
+      <ReviewSystem />
     </div>
   );
 }

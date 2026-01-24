@@ -10,15 +10,15 @@ export default function Services() {
 
     // Service Data for Highlight Card
     const serviceDetails = {
-        'Photography & Videography': { vendors: 150, price: '₹40,000', label: 'Capture every moment' },
+        'Photography & Videography': { vendors: 150, price: '₹xxxx', label: 'Capture every moment' },
         'Fashion & Jewelry': { vendors: 80, price: 'On Request', label: 'Bridal wear & Accessories' },
-        'Catering': { vendors: 200, price: '₹500/plate', label: 'Exquisite culinary delights' },
-        'Entertainment & Music': { vendors: 90, price: '₹25,000', label: 'DJs, Bands & Performers' },
+        'Catering': { vendors: 200, price: '₹xxx/plate', label: 'Exquisite culinary delights' },
+        'Entertainment & Music': { vendors: 90, price: '₹xxxx', label: 'DJs, Bands & Performers' },
         'Horoscope': { vendors: 'AI', price: 'FREE', label: 'Vedic Matchmaking' },
-        'Venue': { vendors: 300, price: '₹1,00,000', label: 'Palaces, Halls & Lawns' },
-        'Honeymoon Planning': { vendors: 40, price: '₹50,000', label: 'Romantic Getaways' },
-        'E-invites': { vendors: 50, price: '₹500', label: 'Eco-friendly & Stylish' },
-        'Event Management': { vendors: 70, price: '₹1,00,000', label: 'End-to-end Planning' },
+        'Venue': { vendors: 300, price: '₹xxxx', label: 'Palaces, Halls & Lawns' },
+        'Honeymoon Planning': { vendors: 40, price: '₹xxxx', label: 'Romantic Getaways' },
+        'E-invites': { vendors: 50, price: '₹xxxx', label: 'Eco-friendly & Stylish' },
+        'Event Management': { vendors: 70, price: '₹xxxx', label: 'End-to-end Planning' },
     };
 
     const currentService = serviceDetails[activeCategory] || serviceDetails['Photography & Videography'];
