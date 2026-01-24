@@ -2,18 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, Grid, MessageCircle, Heart, LogOut, LogIn } from "lucide-react";
 import { MandapIcon, CoupleIcon, DiyaIcon, KalashIcon, UserTilakIcon } from "./Icons";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import logoImg from "../assets/logo.jpg";
 import "./Navbar.css";
-
-/* ---------- LOGO ---------- */
-const Swastik = ({ color }) => (
-  <svg className="swastik-icon" width="32" height="32" viewBox="0 0 100 100" fill="none">
-    <path d="M50 10V90M10 50H90" stroke={color} strokeWidth="8" strokeLinecap="round" />
-    <circle cx="30" cy="30" r="5" fill={color} />
-    <circle cx="70" cy="30" r="5" fill={color} />
-    <circle cx="70" cy="70" r="5" fill={color} />
-    <circle cx="30" cy="70" r="5" fill={color} />
-  </svg>
-);
 
 /* ---------- NAVBAR ---------- */
 export default function Navbar() {
@@ -75,27 +65,34 @@ export default function Navbar() {
     };
 
   const navItems = isLoggedIn ? [
-    { path: "/dashboard", icon: <Grid size={22} />, label: "Dashboard" },
-    { path: "/people", icon: <CoupleIcon size={22} />, label: "People" },
-    { path: "/services", icon: <DiyaIcon size={22} />, label: "Services" },
-    { path: "/messages", icon: <MessageCircle size={22} />, label: "Messages" },
-    { path: "/membership", icon: <KalashIcon size={22} />, label: "Plans" },
-    { path: "/shortlist", icon: <Heart size={22} />, label: "Shortlist" },
-    { path: "/my-profile", icon: <UserTilakIcon size={22} />, label: "Profile" },
+    { path: "/dashboard", icon: <Grid size={20} />, label: "Dashboard" },
+    { path: "/people", icon: <CoupleIcon size={20} />, label: "People" },
+    { path: "/services", icon: <DiyaIcon size={20} />, label: "Services" },
+    { path: "/messages", icon: <MessageCircle size={20} />, label: "Messages" },
+    { path: "/membership", icon: <KalashIcon size={20} />, label: "Plans" },
+    { path: "/shortlist", icon: <Heart size={20} />, label: "Shortlist" },
+    { path: "/my-profile", icon: <UserTilakIcon size={20} />, label: "Profile" },
   ] : [
-    { path: "/", icon: <MandapIcon size={22} />, label: "Home" },
-    { path: "/services", icon: <DiyaIcon size={22} />, label: "Services", onClick: handleServicesClick },
-    { path: "/login", icon: <LogIn size={22} />, label: "Login" },
+    { path: "/", icon: <MandapIcon size={20} />, label: "Home" },
+    { path: "/#services", icon: <DiyaIcon size={20} />, label: "Services" },
+    { path: "/login", icon: <LogIn size={20} />, label: "Login" },
   ];
 
+  const isHero = location.pathname === "/" && !scrolled;
+
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""} ${hidden ? "hidden" : ""}`}>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""} ${hidden ? "hidden" : ""} ${isHero ? "navbar-hero" : ""}`}>
       <div className="navbar-container">
         {/* LOGO */}
-        {/* LOGO */}
-        <Link to="/" className="logo-link" style={{ color: (location.pathname === "/" && !scrolled) ? "#ffffff" : "var(--color-kumkum)" }}>
-          <Swastik color={(location.pathname === "/" && !scrolled) ? "#ffffff" : "var(--color-kumkum)"} />
-          <span>Shubh <span style={{ color: (location.pathname === "/" && !scrolled) ? "#ffffff" : "var(--color-kumkum)" }}>Vivah</span></span>
+        <Link to="/" className="logo-link">
+          <img src={logoImg} alt="Shubh Vivah Logo" className="navbar-logo-img" />
+          <span className="logo-text" style={{ 
+              color: (location.pathname === "/" && !scrolled) ? "#ffffff" : "var(--color-maroon)",
+              fontFamily: 'var(--font-cursive)',
+              fontSize: '1.8rem'
+          }}>
+            Shubh Vivah
+          </span>
         </Link>
 
         {/* DESKTOP MENU (ICON BASED) */}
@@ -107,27 +104,29 @@ export default function Navbar() {
                 className={`nav-icon-link ${location.pathname === item.path ? 'active' : ''}`}
                 onClick={item.onClick}
             >
-                {item.icon}
+                <span className="nav-icon-wrapper">{item.icon}</span>
                 <span className="nav-tooltip">{item.label}</span>
             </Link>
           ))}
           
           {isLoggedIn && (
             <button onClick={handleLogout} className="nav-icon-link" title="Logout">
-                <LogOut size={22} />
+                <span className="nav-icon-wrapper"><LogOut size={20} /></span>
                 <span className="nav-tooltip">Logout</span>
             </button>
           )}
           
           {!isLoggedIn && (
              <Link to="/register" className="btn-primary" style={{ 
-                 padding: '0.5rem 1.5rem', 
+                 padding: '0.6rem 1.8rem', 
                  borderRadius: '50px', 
-                 background: 'var(--color-kumkum)', 
-                 color: 'white', 
+                 background: 'var(--color-maroon)', 
+                 color: 'var(--color-gold)', 
                  textDecoration: 'none',
                  fontWeight: '600',
-                 fontSize: '0.9rem'
+                 fontSize: '0.9rem',
+                 border: '1px solid var(--color-gold)',
+                 boxShadow: '0 4px 10px rgba(128,0,0,0.2)'
              }}>
                  Register Free
              </Link>
@@ -135,7 +134,7 @@ export default function Navbar() {
         </div>
 
         {/* MOBILE MENU BUTTON */}
-        <button onClick={() => setIsOpen(!isOpen)} className="mobile-menu-btn">
+        <button onClick={() => setIsOpen(!isOpen)} className="mobile-menu-btn" style={{ color: (location.pathname === "/" && !scrolled) ? "#fff" : "var(--color-maroon)" }}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
@@ -159,7 +158,7 @@ export default function Navbar() {
             </button>
           )}
           {!isLoggedIn && (
-             <Link to="/register" className="mobile-nav-link" onClick={() => setIsOpen(false)} style={{ color: 'var(--color-kumkum)' }}>
+             <Link to="/register" className="mobile-nav-link" onClick={() => setIsOpen(false)} style={{ color: 'var(--color-maroon)' }}>
                  Register Free
              </Link>
           )}

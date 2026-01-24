@@ -11,7 +11,7 @@ const Footer = () => {
                 <div className="footer-grid">
                     {/* Brand */}
                     <div className="footer-brand">
-                        <h3>Shubh Vivah</h3>
+                        <h3 style={{ fontFamily: 'var(--font-cursive)', fontSize: '2.5rem', color: 'var(--color-gold)' }}>Shubh Vivah</h3>
                         <p>
                             Making matches made in heaven a reality on earth. We combine tradition with technology to help you find your perfect life partner.
                         </p>
@@ -23,7 +23,7 @@ const Footer = () => {
                         <ul className="footer-links">
                             {['Home', 'Services', 'Partners', 'Contact'].map((item) => (
                                 <li key={item}>
-                                    <a href={`#${item.toLowerCase()}`}>
+                                    <a href={item === 'Home' ? '/' : `/#${item.toLowerCase().replace(' ', '-')}`}>
                                         <ChevronRight size={14} color="var(--color-haldi)" /> {item}
                                     </a>
                                 </li>
@@ -37,15 +37,15 @@ const Footer = () => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <div className="contact-item">
                                 <Phone size={18} color="var(--color-haldi)" style={{ marginTop: '3px' }} />
-                                <span>+91 98765 43210<br/>+91 98765 43211</span>
+                                <span>+91 80696 40559<br/><span style={{ fontSize: '0.8rem', color: '#ccc' }}>Mon-Sat: 9 AM - 6 PM IST</span></span>
                             </div>
                             <div className="contact-item">
                                 <Mail size={18} color="var(--color-haldi)" style={{ marginTop: '3px' }} />
-                                <span>info@shubhvivah.com</span>
+                                <span>support@thynktech.ltd</span>
                             </div>
                             <div className="contact-item">
                                 <MapPin size={18} color="var(--color-haldi)" style={{ marginTop: '3px' }} />
-                                <span>123 Wedding Street, Juhu,<br/>Mumbai, Maharashtra 400049</span>
+                                <span>Office No. 1041, 10th Floor,<br/>Gera's Imperium Rise, Hinjawadi Phase 2,<br/>Pune - 411057, Maharashtra, India</span>
                             </div>
                         </div>
                     </div>

@@ -1,47 +1,55 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&family=Great+Vibes&display=swap');
 
 :root {
-  --font-decorative: 'Great Vibes', cursive;
+  /* Fonts */
+  --font-heading: 'Outfit', sans-serif;
   --font-royal: 'Cinzel', serif;
   --font-body: 'Lato', sans-serif;
+  --font-cursive: 'Great Vibes', cursive;
 
-  --color-haldi: #FFC107;
-  --color-kumkum: #D32F2F;
-  --color-akshada: #FFF8E1;
-  --color-text: #333;
+  /* Global Color System (Extracted from Services) */
+  --color-saffron: #FF9933;
+  --color-gold: #D4AF37;
+  --color-maroon: #800000;
+  --color-ivory: #FFFFF0;
+  --color-text-main: #2c1810;
+  
+  /* Legacy mapping for compatibility */
+  --color-haldi: var(--color-saffron);
+  --color-kumkum: var(--color-maroon);
+  --color-akshada: var(--color-ivory);
+  --color-text: var(--color-text-main);
 }
 
 body {
   margin: 0;
   font-family: var(--font-body);
-  background-color: #fffcf5;
-  color: var(--color-text);
+  background-color: var(--color-ivory);
+  color: var(--color-text-main);
   overflow-x: hidden;
 }
 
-/* GLOBAL CURSIVE HEADINGS */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-decorative) !important;
-  font-weight: 400;
+/* GLOBAL HEADINGS - Modern & Elegant */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-maroon);
+  letter-spacing: 0.5px;
 }
 
-/* Specific overrides if needed, but keeping decorative as primary for headings */
+/* Special Royal Text */
 .font-royal {
-  font-family: var(--font-royal);
+  font-family: var(--font-royal) !important;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  transition: color 0.3s ease;
 }
 
 button {
-  font-family: var(--font-body);
-  /* Buttons usually better with readable font */
+  font-family: var(--font-heading);
+  font-weight: 500;
 }

@@ -1,0 +1,266 @@
+/* WhyUs.css */
+:root {
+    --why-bg: #FFFDF5; /* Cream/Ivory background */
+    --why-primary: #800000; /* Maroon */
+    --why-accent: #D4AF37; /* Gold */
+    --why-text: #333333; /* Darker Gray for better contrast */
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-highlight: rgba(255, 255, 255, 0.9);
+}
+
+.why-us-section {
+    position: relative;
+    padding: 8rem 2rem;
+    background: var(--why-bg);
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* BACKGROUND BLOBS - Made slightly more visible for glass effect */
+.why-us-bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 0;
+    opacity: 0.25; 
+}
+
+.blob-1 {
+    top: -10%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background: var(--why-primary);
+}
+
+.blob-2 {
+    bottom: -10%;
+    left: -5%;
+    width: 600px;
+    height: 600px;
+    background: var(--why-accent);
+}
+
+.why-us-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.why-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.why-header h2 {
+    font-family: var(--font-royal, serif);
+    font-size: 3.5rem;
+    color: var(--why-primary);
+    margin-bottom: 1rem;
+    text-shadow: none;
+}
+
+.why-header p {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 500; /* Increased weight for readability */
+}
+
+/* GLASS CARD GRID */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Reduced min-width */
+    gap: 1.5rem; /* Reduced gap */
+    padding: 1rem;
+}
+
+/* CLASSIC GLASS EFFECT */
+.glass-card {
+    position: relative;
+    border-radius: 16px; /* Slightly reduced radius */
+    /* Classic Glass Gradient: Reflective top-left to bottom-right */
+    background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.7) 0%, 
+        rgba(255, 255, 255, 0.3) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-top: 1px solid rgba(255, 255, 255, 1);
+    border-left: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* Remove the complex mask/before pseudo-element for cleaner look */
+.glass-card::before {
+    display: none;
+}
+
+.glass-card-content {
+    padding: 1.5rem; /* Reduced padding */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+}
+
+/* CARD HEADER */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1rem; /* Reduced margin */
+}
+
+.icon-wrapper-glass {
+    width: 48px; /* Reduced size */
+    height: 48px; /* Reduced size */
+    background: linear-gradient(135deg, #FFFFFF, #FFF8E1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--why-primary);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Adjust icon size inside wrapper if needed, usually handled by prop but wrapper constrains it visually */
+
+.card-badge {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.3rem 0.6rem; /* Reduced padding */
+    border-radius: 15px;
+    font-size: 0.65rem; /* Reduced font size */
+    color: var(--why-primary);
+    border: 1px solid var(--why-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    height: fit-content;
+    font-weight: 700;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* CARD TEXT - High Contrast */
+.glass-card h3 {
+    font-family: var(--font-royal, serif);
+    font-size: 1.3rem; /* Reduced font size */
+    color: var(--why-primary);
+    margin-bottom: 0.5rem; /* Reduced margin */
+    font-weight: 700;
+}
+
+.glass-card p {
+    color: var(--why-text);
+    line-height: 1.5;
+    font-size: 0.9rem; /* Reduced font size */
+    margin-bottom: 1.5rem; /* Reduced margin */
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+/* ACTIONS */
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.primary-glass-btn {
+    background: var(--why-primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem; /* Reduced padding */
+    border-radius: 25px;
+    font-size: 0.8rem; /* Reduced font size */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(128, 0, 0, 0.2);
+    font-weight: 600;
+}
+
+.primary-glass-btn:hover {
+    background: #600000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(128, 0, 0, 0.3);
+}
+
+.secondary-actions {
+    display: flex;
+    gap: 0.5rem; /* Reduced gap */
+}
+
+.icon-glass-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--why-primary);
+    width: 32px; /* Reduced size */
+    height: 32px; /* Reduced size */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-glass-btn:hover {
+    background: white;
+    color: var(--why-accent);
+    transform: scale(1.1);
+    border-color: var(--why-accent);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* HOVER EFFECTS */
+.glass-card:hover {
+    transform: translateY(-5px); /* Reduced hover lift */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    border-color: white;
+    background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.85) 0%, 
+        rgba(255, 255, 255, 0.45) 100%
+    );
+}
+
+.glass-card:hover .icon-wrapper-glass {
+    transform: scale(1.1) rotate(5deg);
+    transition: all 0.4s ease;
+    border-color: var(--why-accent);
+}
+
+@media (max-width: 768px) {
+    .why-header h2 {
+        font-size: 2.2rem; /* Slightly reduced */
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for mobile */
+        gap: 1.5rem;
+    }
+    
+    .glass-card {
+        margin: 0; /* Removed margin as grid handles gap */
+    }
+}
